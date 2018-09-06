@@ -3,7 +3,7 @@ var body = $('#body-input').val();
 var numCards = 0;
 var qualityVariable = "swill";
 
-var newCard = function(id , title , body , quality) {
+var newCard = function() {
     return '<div id="' + id + '"class="card-container"><h2 class="title-of-card">'  
             + title +  '</h2>'
             + '<button class="delete-button"></button>'
@@ -16,12 +16,11 @@ var newCard = function(id , title , body , quality) {
             + '</div>';
 };
 
-function cardObject() {
-    return {
-        title: $('#title-input').val(),
-        body: $('#body-input').val(),
-        quality: qualityVariable
-    };
+function CardObject(title, body) {
+  this.title = title;
+  this.body = body;
+  this.quality = qualityVariable;
+  this.numCards = 0;
 }
 
 $.each(localStorage, function(key) {
@@ -36,6 +35,9 @@ var localStoreCard = function() {
 }
 
 $('.save-btn').on('click', function(event) {
+  var title = $('#title-input').val();
+  var body = $('#body-input').val();
+    
     event.preventDefault();
     if ($('#title-input').val() === "" || $('#body-input').val() === "") {
        return false;
@@ -45,6 +47,8 @@ $('.save-btn').on('click', function(event) {
     $( ".bottom-box" ).prepend(newCard('card' + numCards, $('#title-input').val(), $('#body-input').val(), qualityVariable)); 
     localStoreCard();
     $('form')[0].reset();
+
+
 });
 
 $(".bottom-box").on('click', function(event){
