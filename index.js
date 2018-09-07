@@ -1,58 +1,68 @@
 // var title = $('#title-input').val();
 // var body = $('#body-input').val();
-// // var numCards = 0;
+// // var numtasks = 0;
 var qualityVariable = "swill";
 
-var newCard = function(id , title , body , quality) {
-    return '<div id="' + id + '"class="card-container"><h2 class="title-of-card">'  
-            + title +  '</h2>'
-            + '<button class="delete-button"></button>'
-            +'<p class="body-of-card">'
-            + body + '</p>'
-            + '<button class="upvote"></button>' 
-            + '<button class="downvote"></button>' 
-            + '<p class="quality">' + 'quality:' + '<span class="qualityVariable">' + quality + '</span>' + '</p>'
-            + '<hr>' 
-            + '</div>';
+
+
+function createHTML(task) {
+    var newTask =  `<div id="${task.numtask}"class="task-container">
+                    <h2 class="title-of-task">${task.title}</h2>
+                    <button class="delete-button"></button>
+                    <p class="body-of-task">${task.body}</p>
+                    <button class="upvote"></button>
+                    <button class="downvote"></button>
+                    <p class="quality">quality: 
+                    <span class="qualityVariable">${task.quality}</span></p>
+                    <hr>
+                    </div>`;
+    $( ".bottom-box" ).prepend(newTask);
 };
 
-function CardObject(title, body) {
+
+
+function TaskObject(title, body) {
   this.title = title;
   this.body = body;
   this.quality = qualityVariable;
-  this.numCards = 0;
+  this.numtasks = 0;
 }
+
 
 $.each(localStorage, function(key) {
-    var cardData = JSON.parse(this);
-    console.log(cardData);
-    this.numCards++;
-    $( ".bottom-box" ).prepend(newCard(key, cardData.title, cardData.body, cardData.quality));
+    var taskData = JSON.parse(this);
+    this.numtasks++;
+    createHTML(taskData);
+
+    ;
 });
 
-function localStoreCard(object) {
-  var cardString = JSON.stringify(object);
-  localStorage.setItem('card' + object.numCards  , cardString);
+
+function localStoreTask(object) {
+  var taskString = JSON.stringify(object);
+  localStorage.setItem('task' + object.numtasks  , taskString);
 }
+
+
 
 $('.save-btn').on('click', function(event) {
   var title = $('#title-input').val();
   var body = $('#body-input').val();
-  var toDo = new CardObject(title, body)
+  var newTask = new TaskObject(title, body)
 
     
     event.preventDefault();
     if ($('#title-input').val() === "" || $('#body-input').val() === "") {
        return false;
     };  
-
-    toDo.numCards++;
-    $( ".bottom-box" ).prepend(newCard('card' + toDo.numCards, toDo.title, toDo.body, qualityVariable)); 
-    localStoreCard(toDo);
+    newTask.numtasks++;
+    createHTML(newTask); 
+    localStoreTask(newTask);
     $('form')[0].reset();
 
-
 });
+
+
 
 $(".bottom-box").on('click', function(event){
     var currentQuality = $($(event.target).siblings('p.quality').children()[0]).text().trim();
@@ -83,21 +93,21 @@ $(".bottom-box").on('click', function(event){
             qualityVariable = "genius";
         }
 
-    var cardHTML = $(event.target).closest('.card-container');
-    var cardHTMLId = cardHTML[0].id;
-    var cardObjectInJSON = localStorage.getItem(cardHTMLId);
-    var cardObjectInJS = JSON.parse(cardObjectInJSON);
+    var taskHTML = $(event.target).closest('.task-container');
+    var taskHTMLId = taskHTML[0].id;
+    var taskObjectInJSON = localStorage.getItem(taskHTMLId);
+    var taskObjectInJS = JSON.parse(taskObjectInJSON);
 
-    cardObjectInJS.quality = qualityVariable;
+    taskObjectInJS.quality = qualityVariable;
 
-    var newCardJSON = JSON.stringify(cardObjectInJS);
-    localStorage.setItem(cardHTMLId, newCardJSON);
+    var newtaskJSON = JSON.stringify(taskObjectInJS);
+    localStorage.setItem(taskHTMLId, newtaskJSON);
     }
    
     else if (event.target.className === "delete-button") {
-        var cardHTML = $(event.target).closest('.card-container').remove();
-        var cardHTMLId = cardHTML[0].id;
-        localStorage.removeItem(cardHTMLId);
+        var taskHTML = $(event.target).closest('.task-container').remove();
+        var taskHTMLId = taskHTML[0].id;
+        localStorage.removeItem(taskHTMLId);
     }
 });
       
