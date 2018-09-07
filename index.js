@@ -29,7 +29,6 @@ function TaskObject(title, body) {
 }
 
 
-
 $.each(localStorage, function(key) {
     var taskData = JSON.parse(this);
     this.numtasks++;
@@ -39,12 +38,10 @@ $.each(localStorage, function(key) {
 });
 
 
-
 function localStoreTask(object) {
   var taskString = JSON.stringify(object);
   localStorage.setItem('task' + object.numtasks  , taskString);
 }
-
 
 
 
@@ -64,8 +61,6 @@ $('.save-btn').on('click', function(event) {
     $('form')[0].reset();
 
 });
-
-
 
 
 
