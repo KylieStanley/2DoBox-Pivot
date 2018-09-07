@@ -1,9 +1,9 @@
-var title = $('#title-input').val();
-var body = $('#body-input').val();
-var numCards = 0;
+// var title = $('#title-input').val();
+// var body = $('#body-input').val();
+// // var numCards = 0;
 var qualityVariable = "swill";
 
-var newCard = function() {
+var newCard = function(id , title , body , quality) {
     return '<div id="' + id + '"class="card-container"><h2 class="title-of-card">'  
             + title +  '</h2>'
             + '<button class="delete-button"></button>'
@@ -25,27 +25,30 @@ function CardObject(title, body) {
 
 $.each(localStorage, function(key) {
     var cardData = JSON.parse(this);
-    numCards++;
+    console.log(cardData);
+    this.numCards++;
     $( ".bottom-box" ).prepend(newCard(key, cardData.title, cardData.body, cardData.quality));
 });
 
-var localStoreCard = function() {
-    var cardString = JSON.stringify(cardObject());
-    localStorage.setItem('card' + numCards  , cardString);
+function localStoreCard(object) {
+  var cardString = JSON.stringify(object);
+  localStorage.setItem('card' + object.numCards  , cardString);
 }
 
 $('.save-btn').on('click', function(event) {
   var title = $('#title-input').val();
   var body = $('#body-input').val();
+  var toDo = new CardObject(title, body)
+
     
     event.preventDefault();
     if ($('#title-input').val() === "" || $('#body-input').val() === "") {
        return false;
     };  
 
-    numCards++;
-    $( ".bottom-box" ).prepend(newCard('card' + numCards, $('#title-input').val(), $('#body-input').val(), qualityVariable)); 
-    localStoreCard();
+    toDo.numCards++;
+    $( ".bottom-box" ).prepend(newCard('card' + toDo.numCards, toDo.title, toDo.body, qualityVariable)); 
+    localStoreCard(toDo);
     $('form')[0].reset();
 
 
