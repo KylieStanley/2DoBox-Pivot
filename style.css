@@ -76,20 +76,20 @@ input {
   margin: auto;
 }
 
-.card-container {
+.task-container {
   margin: auto;
   position: relative;
   width: 45%;
 }
 
-.card {
+.task {
   background-color: #ffffff;
   height: auto;
   margin: auto;
   width: 45%;
 }
 
-.title-of-card{
+.title-of-task{
   color: #6D6E71;
   display: inline-block;
   font-family: 'Roboto Slab', serif;
@@ -108,7 +108,7 @@ p {
   font-family: 'Open Sans', sans-serif;
 }
 
-.body-of-card{
+.body-of-task{
   color: #939598;
   font-family: 'Open Sans', sans-serif;
   font-size: 100%;
@@ -169,7 +169,7 @@ button {
 
 @media(max-width: 640px){
 
-  .card-container {
+  .task-container {
       width: 85%;
   }
 
