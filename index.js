@@ -1,12 +1,13 @@
+$('.save-btn').on('click', saveTask);
 // var title = $('#title-input').val();
 // var body = $('#body-input').val();
-// // var numtasks = 0;
+// // var id = 0;
 var qualityVariable = "swill";
 
 
-
+// Create HTML on page called by saveTask function
 function createHTML(task) {
-    var newTask =  `<div id="${task.numtask}"class="task-container">
+    var newTask =  `<div id="${task.id}"class="task-container">
                     <h2 class="title-of-task">${task.title}</h2>
                     <button class="delete-button"></button>
                     <p class="body-of-task">${task.body}</p>
@@ -17,53 +18,54 @@ function createHTML(task) {
                     <hr>
                     </div>`;
     $( ".bottom-box" ).prepend(newTask);
+    localStoreTask(task);
 };
 
 
 
+//Constructor
 function TaskObject(title, body) {
   this.title = title;
   this.body = body;
   this.quality = qualityVariable;
-  this.numtasks = 0;
+  this.id = Date.now();
 }
 
 
-$.each(localStorage, function(key) {
-    var taskData = JSON.parse(this);
-    this.numtasks++;
-    createHTML(taskData);
+//Get task from local storage
+function getItem() {
+  $.each(localStorage, function(key) {
+      var retrievedTask = localStorage.getItem(key);
+      var taskData = JSON.parse(retrievedTask);
+      createHTML(taskData);
+  });  
+}
 
-    ;
-});
 
-
-function localStoreTask(object) {
-  var taskString = JSON.stringify(object);
-  localStorage.setItem('task' + object.numtasks  , taskString);
+//Stores task into local storage
+function localStoreTask(obj) {
+  var taskString = JSON.stringify(obj);
+  localStorage.setItem('task' + obj.id , taskString);
 }
 
 
 
-$('.save-btn').on('click', function(event) {
+
+
+//On save click, creates the new task
+function saveTask(event) {
   var title = $('#title-input').val();
   var body = $('#body-input').val();
   var newTask = new TaskObject(title, body)
-
-    
-    event.preventDefault();
-    if ($('#title-input').val() === "" || $('#body-input').val() === "") {
-       return false;
-    };  
-    newTask.numtasks++;
-    createHTML(newTask); 
-    localStoreTask(newTask);
-    $('form')[0].reset();
-
-});
+  event.preventDefault();
+  createHTML(newTask); 
+  localStoreTask(newTask);
+  $('form')[0].reset();
+};
 
 
 
+// Upvote/donvote/something
 $(".bottom-box").on('click', function(event){
     var currentQuality = $($(event.target).siblings('p.quality').children()[0]).text().trim();
     var qualityVariable;
@@ -119,5 +121,8 @@ $(".bottom-box").on('click', function(event){
 
 
 
+//NEED function to disable/enable save button
 
-
+  // if ($('#title-input').val() === "" || $('#body-input').val() === "") {
+  //    return false;
+  // };  
