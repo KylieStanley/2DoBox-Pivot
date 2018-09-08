@@ -17,7 +17,7 @@ function createHTML(task) {
                     <button class="upvote"></button>
                     <button class="downvote"></button>
                     <p class="quality">quality: 
-                    <span class="qualityVariable">${task.quality[0]}</span></p>
+                    <span class="qualityVariable">${task.quality}</span></p>
                     <hr>
                     </div>`;
     $( ".bottom-box" ).prepend(newTask);
@@ -30,7 +30,7 @@ function createHTML(task) {
 function TaskObject(title, body) {
   this.title = title;
   this.body = body;
-  this.quality = ['swill', 'plausible', 'genius'];
+  this.quality = 'swill';
   this.id = Date.now();
 }
 
@@ -72,10 +72,12 @@ function eventDelegator(event) {
    deleteIdea(event);
  }
  if ($(event.target).hasClass('upvote')) {
-   upVote(event);
+   $($(event.target).siblings('.quality').children()[0]).text(upVote(event));
+   voteStorage(event);
  }
  if ($(event.target).hasClass('downvote')) {
-   downVote(event);
+   $($(event.target).siblings('.quality').children()[0]).text(downVote(event));
+   voteStorage(event);
  }
 };
 
@@ -84,63 +86,44 @@ function deleteIdea(e) {
   var id = $(event.target).closest('.task-container').data('id');
   $(event.target).parent().remove();
   localStorage.removeItem(id);
-    }
+}
 
 
 
 // Upvote/donvote/something
 
-$(".bottom-box").on('click', functionFunction) 
+// $(".bottom-box").on('click', functionFunction) 
 
- function functionFunction() {
-
-    var taskHTML = $(event.target).closest('.task-container');
-    var taskHTMLId = taskHTML[0].id;
-    var taskObjectInJSON = localStorage.getItem(taskHTMLId);
-    var taskObjectInJS = JSON.parse(taskObjectInJSON);
-  
-
-    var currentQuality = $($(event.target).siblings('p.quality').children()[0]).text().trim();
-    var qualityVariable;
-
-
-
-
-
-    if (event.target.className === "upvote" || event.target.className === "downvote"){
-
-        if (event.target.className === "upvote" && currentQuality === "plausible"){
-            qualityVariable = "genius";
-            $($(event.target).siblings('p.quality').children()[0]).text(qualityVariable);
-               
-        } else if (event.target.className === "upvote" && currentQuality === "swill") {
-            qualityVariable = "plausible";
-            $($(event.target).siblings('p.quality').children()[0]).text(qualityVariable);
-               
-        } else if (event.target.className === "downvote" && currentQuality === "plausible") {
-            qualityVariable = "swill"
-            $($(event.target).siblings('p.quality').children()[0]).text(qualityVariable);
-
-        } else if (event.target.className === "downvote" && currentQuality === "genius") {
-            qualityVariable = "plausible"
-            $($(event.target).siblings('p.quality').children()[0]).text(qualityVariable);
-
-        } else if (event.target.className === "downvote" && currentQuality === "swill") {
-            qualityVariable = "swill";
-        
-        } else if (event.target.className === "upvote" && currentQuality === "genius") {
-            qualityVariable = "genius";
-        }
-
-
-
-    taskObjectInJS.quality = qualityVariable;
-
-    var newtaskJSON = JSON.stringify(taskObjectInJS);
-    localStorage.setItem(taskHTMLId, newtaskJSON);
+function upVote(event) {
+  var qualityArray = ['swill', 'plausible', 'genius'];
+  var currentQuality = $($(event.target).siblings('.quality').children()[0]).text();
+  for (var i = 0; i < qualityArray.length; i++) {
+    if (currentQuality === qualityArray[i]){
+      return currentQuality = qualityArray[i+1];
     }
-   
+  }
 }
+
+function downVote(event) {
+  var qualityArray = ['swill', 'plausible', 'genius'];
+  var currentQuality = $($(event.target).siblings('.quality').children()[0]).text();
+  for (var i = 0; i < qualityArray.length; i++) {
+    if (currentQuality === qualityArray[i]){
+     return currentQuality = qualityArray[i-1];
+    }
+  }
+}
+
+function voteStorage(event) {
+  var retrieveTask = JSON.parse(localStorage.getItem($(event.target).parents('.task-container').attr('data-id')));
+  retrieveTask.quality = $($(event.target).siblings('.quality').children()[0]).text();
+  localStoreTask(retrieveTask);
+}
+
+
+
+
+
       
 
 
