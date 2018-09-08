@@ -1,12 +1,7 @@
+$(document).ready(getTask);
 
 $('.bottom-box').on('click', eventDelegator);
-// $('.bottom-box').on('keyup', eventDelegatorEdit);
 $('.save-btn').on('click', saveTask);
-// var title = $('#title-input').val();
-// var body = $('#body-input').val();
-// // var id = 0;
-// var qualityVariable = "swill";
-
 
 // Create HTML on page called by saveTask function
 function createHTML(task) {
@@ -36,13 +31,14 @@ function TaskObject(title, body) {
 
 
 //Get task from local storage
-function getItem() {
-  $.each(localStorage, function(key) {
-      var retrievedTask = localStorage.getItem(key);
+function getTask() {
+  for (var i = 0; i < localStorage.length; i++) {
+      var retrievedTask = localStorage.getItem(localStorage.key(i));
+      // console.log(key);
       var taskData = JSON.parse(retrievedTask);
       createHTML(taskData);
-  });  
-}
+  }
+};
 
 
 //Stores task into local storage
