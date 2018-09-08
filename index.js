@@ -2,7 +2,9 @@ $(document).ready(getTask);
 
 $('.bottom-box').on('click', eventDelegator);
 $('.save-btn').on('click', saveTask);
- $("#search-input").on("keyup", searchTask);
+$('.search-input').on('keyup', searchTask);
+$('.title-input').on('keyup', enableSave)
+$('.body-input').on('keyup', enableSave)
 
 // Create HTML on page called by saveTask function
 function createHTML(task) {
@@ -52,8 +54,8 @@ function localStoreTask(obj) {
 
 //On save click, creates the new task
 function saveTask(event) {
-  var title = $('#title-input').val();
-  var body = $('#body-input').val();
+  var title = $('.title-input').val();
+  var body = $('.body-input').val();
   var newTask = new TaskObject(title, body)
   event.preventDefault();
   createHTML(newTask); 
@@ -150,17 +152,11 @@ function searchTask() {
 
 
 
-      
-
-
-
-
-
-
-//Function for editing text
-
 //NEED function to disable/enable save button
-
-  // if ($('#title-input').val() === "" || $('#body-input').val() === "") {
-  //    return false;
-  // };  
+function enableSave() {
+  if ($('.title-input').val().length === 0 || $('.body-input').val().length === 0) {
+    $('.save-btn').prop('disabled', true)
+    } else {
+      $('.save-btn').prop('disabled', false)
+    }  
+};
