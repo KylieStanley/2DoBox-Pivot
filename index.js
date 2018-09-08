@@ -2,21 +2,24 @@ $(document).ready(getTask);
 
 $('.bottom-box').on('click', eventDelegator);
 $('.save-btn').on('click', saveTask);
+ $("#search-input").on("keyup", searchTask);
 
 // Create HTML on page called by saveTask function
 function createHTML(task) {
-    var newTask =  `<div data-id="${task.id}"class="task-container">
-                    <h2 class="title-of-task">${task.title}</h2>
+  var newTask =  `<div data-id="${task.id}"class="task-container">
+                    <h2 contenteditable="true" class="title-of-task edit">${task.title}</h2>
                     <button class="delete-button"></button>
-                    <p class="body-of-task">${task.body}</p>
+                    <p contenteditable="true" class="body-of-task edit">${task.body}</p>
                     <button class="upvote"></button>
                     <button class="downvote"></button>
                     <p class="quality">quality: 
                     <span class="qualityVariable">${task.quality}</span></p>
                     <hr>
                     </div>`;
-    $( ".bottom-box" ).prepend(newTask);
-    localStoreTask(task);
+  $( ".bottom-box" ).prepend(newTask);
+  localStoreTask(task);
+  $('.edit').on('keypress', editTaskEnter);
+  $('.edit').on('focusout', editTaskClick);
 };
 
 
@@ -34,7 +37,6 @@ function TaskObject(title, body) {
 function getTask() {
   for (var i = 0; i < localStorage.length; i++) {
       var retrievedTask = localStorage.getItem(localStorage.key(i));
-      // console.log(key);
       var taskData = JSON.parse(retrievedTask);
       createHTML(taskData);
   }
@@ -46,9 +48,6 @@ function localStoreTask(obj) {
   var taskString = JSON.stringify(obj);
   localStorage.setItem(obj.id, taskString);
 }
-
-
-
 
 
 //On save click, creates the new task
@@ -77,6 +76,14 @@ function eventDelegator(event) {
  }
 };
 
+function eventDelegatorEdit(event) {
+ if ($(event.target).hasClass('title')) {
+   editContent();
+ }
+ if ($(event.target).hasClass('idea-details')) {
+   editContent();
+ }
+};
 
 function deleteIdea(e) {
   var id = $(event.target).closest('.task-container').data('id');
@@ -88,7 +95,6 @@ function deleteIdea(e) {
 
 // Upvote/donvote/something
 
-// $(".bottom-box").on('click', functionFunction) 
 
 function upVote(event) {
   var qualityArray = ['swill', 'plausible', 'genius'];
@@ -116,6 +122,30 @@ function voteStorage(event) {
   localStoreTask(retrieveTask);
 }
 
+function editTaskEnter(event) {
+  if (event.keyCode === 13) {
+    var parseObj = JSON.parse(localStorage.getItem($(event.target).parents('.task-container').attr('data-id')));
+    parseObj.title = $('.title-of-task').html();
+    parseObj.body = $('.body-of-task').html();
+    localStoreTask(parseObj);
+    document.activeElement.blur();
+  } 
+}
+
+function editTaskClick(event) {
+  var parseObj = JSON.parse(localStorage.getItem($(event.target).parents('.task-container').attr('data-id')));
+  parseObj.title = $('.title-of-task').html();
+  parseObj.body = $('.body-of-task').html();
+  localStoreTask(parseObj);
+}
+
+// search function
+function searchTask() {
+   var value = $(this).val().toLowerCase();
+   $(".task-container").filter(function() {
+     $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+   });
+ };
 
 
 
@@ -128,14 +158,6 @@ function voteStorage(event) {
 
 
 //Function for editing text
-// function eventDelegatorEdit(event) {
-//  if ($(event.target).hasClass('‘'title’)) {
-//    editContent();
-//  }
-//  if ($(event.target).hasClass(‘idea-details’)) {
-//    editContent();
-//  }
-// };
 
 //NEED function to disable/enable save button
 
