@@ -135,6 +135,20 @@ button {
   background-image: url(./images/delete-hover.svg);
 }
 
+.completed {
+  position: absolute;
+  right: 10px;
+  bottom: 17px;
+  background-color: #00A79D;
+  color: white;
+  padding: 5px;
+  letter-spacing: 1px;
+}
+
+.opacity {
+  opacity: .3;
+}
+
 @media(max-width: 640px){
 
   input {
