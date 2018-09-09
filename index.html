@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html lang="en">
 <head>
   <title>2DoBox</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,25 +7,20 @@
   <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:700" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 </head>
-
 <body>
   <section class="container box">
     <article class="top-box">
       <form>
         <h1 class="idea">2Do</h1>
         <h1 class="box">Box</h1>
-        <input class="title-input" type="text" placeholder="Title"><br />
-        <input class="body-input" type="text" placeholder="Body"><br />  
+        <input aria-label="input field for title of task" class="title-input" type="text" placeholder="Title"><br />
+        <input aria-label="input field for body of task" class="body-input" type="text" placeholder="Body"><br />  
         <button disabled class="save-btn">save</button><br />
       </form>
     </article>
-    
-    <input class="search-input" type="text" placeholder="Search">
-
+    <input aria-label="search field to filter tasks on page"class="search-input" type="text" placeholder="Search">
     <article class="bottom-box"> </article>
-
   </section>
-
   <script src="./jquery/jquery-3.2.1.js"></script>
   <script src="./index.js"></script>
 </body>
