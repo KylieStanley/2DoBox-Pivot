@@ -33,7 +33,7 @@ h1{
 }
 
 .search-input {
-  margin-top: 50px;
+  margin-top: 25px;
 }
 
 .save-btn {
@@ -145,8 +145,24 @@ button {
   letter-spacing: 1px;
 }
 
+.show {
+  padding: 5px;
+  width: 144px;
+  margin: auto;
+  margin-top: 10px;
+  text-decoration: underline;
+}
+
+.show:hover {
+  opacity: .3;
+}
+
 .opacity {
   opacity: .3;
+}
+
+.hide {
+  display: none;
 }
 
 @media(max-width: 640px){
@@ -160,7 +176,7 @@ button {
   }
 
   .task-container {
-      width: 85%;
+    width: 85%;
   }
 
   .search-input {

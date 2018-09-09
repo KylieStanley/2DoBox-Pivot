@@ -3,6 +3,7 @@ $(document).ready(getTask);
 $('.bottom-box').on('click', eventDelegator);
 $('.bottom-box').on('keypress', editEventDelegator);
 $('.bottom-box').on('focusout', editEventDelegator);
+$('.show').on('click', showCompletedTasks);
 
 
 $('.save-btn').on('click', saveTask);
@@ -22,15 +23,19 @@ function createHTML(task) {
                     <span class="qualityVariable">${task.quality}</span></p>
                     <button class="completed">Completed Task</button>
                     <hr>
-                    </div>`;
+                  </div>`;
   $( ".bottom-box" ).prepend(newTask);
   localStoreTask(task);
-};
+
+  if (task.completed === true) {
+    $('.opacity').addClass('hide');
+  }
+}
 
 function TaskObject(title, body) {
   this.title = title;
   this.body = body;
-  this.quality = 'swill';
+  this.quality = 'None';
   this.id = Date.now();
   this.class = '';
   this.completed = false;
@@ -38,8 +43,9 @@ function TaskObject(title, body) {
 
 function getTask() {
   for (var i = 0; i < localStorage.length; i++) {
-      var retrievedTask = localStorage.getItem(localStorage.key(i));
-      var taskData = JSON.parse(retrievedTask);
+    var retrievedTask = localStorage.getItem(localStorage.key(i));
+    var taskData = JSON.parse(retrievedTask);
+
       createHTML(taskData);
   }
 };
@@ -59,24 +65,22 @@ function saveTask(event) {
   $('form')[0].reset();
 };
 
-
 function eventDelegator(event) {
- if ($(event.target).hasClass('delete-button')) {
-   deleteIdea(event);
- }
- if ($(event.target).hasClass('upvote')) {
-   $($(event.target).siblings('.quality').children()[0]).text(upVote(event));
-   voteStorage(event);
- }
- if ($(event.target).hasClass('downvote')) {
-   $($(event.target).siblings('.quality').children()[0]).text(downVote(event));
-   voteStorage(event);
- }
- if ($(event.target).hasClass('completed')) {
-  completeTask(event);
- }
+  if ($(event.target).hasClass('delete-button')) {
+    deleteIdea(event);
+  }
+  if ($(event.target).hasClass('upvote')) {
+    $($(event.target).siblings('.quality').children()[0]).text(upVote(event));
+    voteStorage(event);
+  }
+  if ($(event.target).hasClass('downvote')) {
+    $($(event.target).siblings('.quality').children()[0]).text(downVote(event));
+    voteStorage(event);
+  }
+  if ($(event.target).hasClass('completed')) {
+    completeTask(event);
+  }
 };
-
 
 function editEventDelegator(event) {
   if ($(event.target).hasClass('edit')) {
@@ -94,7 +98,7 @@ function deleteIdea(e) {
 }
 
 function upVote(event) {
-  var qualityArray = ['swill', 'plausible', 'genius'];
+  var qualityArray = ['None', 'Low', 'Normal', 'High', 'Critical'];
   var currentQuality = $($(event.target).siblings('.quality').children()[0]).text();
   for (var i = 0; i < qualityArray.length; i++) {
     if (currentQuality === qualityArray[i]){
@@ -104,7 +108,7 @@ function upVote(event) {
 }
 
 function downVote(event) {
-  var qualityArray = ['swill', 'plausible', 'genius'];
+  var qualityArray = ['None', 'Low', 'Normal', 'High', 'Critical'];
   var currentQuality = $($(event.target).siblings('.quality').children()[0]).text();
   for (var i = 0; i < qualityArray.length; i++) {
     if (currentQuality === qualityArray[i]){
@@ -135,33 +139,33 @@ function editTaskClick(event) {
 }
 
 function searchTask() {
-   var value = $(this).val().toLowerCase();
-   $(".task-container").filter(function() {
-     $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-   });
- };
+  var value = $(this).val().toLowerCase();
+  $(".task-container").filter(function() {
+    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+  });
+};
 
 function enableSave() {
   if ($('.title-input').val().length === 0 || $('.body-input').val().length === 0) {
-    $('.save-btn').prop('disabled', true)
+    $('.save-btn').prop('disabled', true);
     } else {
-      $('.save-btn').prop('disabled', false)
+      $('.save-btn').prop('disabled', false);
     }  
 };
 
 function completeTask(event) {
   $(event.target).parents('.task-container').toggleClass('opacity');
-    var parseObj = JSON.parse(localStorage.getItem($(event.target).parents('.task-container').attr('data-id')));
-    parseObj.class = $(event.target).parents('.task-container').attr('class');
-    
-    if (parseObj.completed === false) {
-      parseObj.completed = true;
-    } else {
-      parseObj.completed = false;
-    }
-    localStoreTask(parseObj);
-    }
+  var parseObj = JSON.parse(localStorage.getItem($(event.target).parents('.task-container').attr('data-id')));
+  parseObj.class = $(event.target).parents('.task-container').attr('class');
+  parseObj.completed = (parseObj.completed) ? false : true;
+  localStoreTask(parseObj);
+}
   
+function showCompletedTasks(event) {
+  event.preventDefault();
+  // var parseObj = JSON.parse(localStorage.getItem($(event.target).parents('.task-container').attr('data-id')));
+  $(event.target).siblings().children('.task-container').toggleClass('hide');
+}
 
 
 
