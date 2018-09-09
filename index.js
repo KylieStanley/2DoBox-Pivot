@@ -10,10 +10,10 @@ $('.body-input').on('keyup', enableSave)
 function createHTML(task) {
   var newTask =  `<div data-id="${task.id}"class="task-container">
                     <h2 contenteditable="true" class="title-of-task edit">${task.title}</h2>
-                    <button class="delete-button"></button>
+                    <button class="delete-button btn"></button>
                     <p contenteditable="true" class="body-of-task edit">${task.body}</p>
-                    <button class="upvote"></button>
-                    <button class="downvote"></button>
+                    <button class="upvote btn"></button>
+                    <button class="downvote btn"></button>
                     <p class="quality">quality: 
                     <span class="qualityVariable">${task.quality}</span></p>
                     <hr>
