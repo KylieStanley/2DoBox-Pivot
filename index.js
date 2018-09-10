@@ -27,6 +27,7 @@ function createHTML(task) {
   if (task.completed === true) {
     $('.opacity').addClass('hide');
   }
+  hideOldTasks();
 }
 
 function TaskObject(title, body) {
@@ -60,6 +61,7 @@ function saveTask(event) {
   createHTML(newTask); 
   localStoreTask(newTask);
   $('form')[0].reset();
+  enableSave();
 };
 
 function eventDelegator(event) {
@@ -162,3 +164,21 @@ function showCompletedTasks(event) {
   $(event.target).siblings().children('.hide').toggleClass('hide');
   $('.show').prop('disabled', true);
 }
+
+function hideOldTasks() {
+  if ($('.task-container').length === 11) {
+    $('.task-container').slice(10).hide();
+    $('.bottom-box').append(`<button class="show-button">Show All</button>`)
+  } else if ($('.task-container').length > 10) {
+    $('.task-container').slice(10).hide();
+  }
+  $('.show-button').on('click', showAllTasks);
+}
+
+function showAllTasks() {
+  $('.task-container').show();
+}
+
+
+
+
