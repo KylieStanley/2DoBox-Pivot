@@ -4,14 +4,11 @@ $('.bottom-box').on('click', eventDelegator);
 $('.bottom-box').on('keypress', editEventDelegator);
 $('.bottom-box').on('focusout', editEventDelegator);
 $('.show').on('click', showCompletedTasks);
-
-
 $('.save-btn').on('click', saveTask);
 $('.search-input').on('keyup', searchTask);
 $('.title-input').on('keyup', enableSave)
 $('.body-input').on('keyup', enableSave)
 
-// Create HTML on page called by saveTask function
 function createHTML(task) {
   var newTask =  `<div data-id="${task.id}"class="task-container ${task.class}">
                     <h2 contenteditable="true" class="title-of-task edit">${task.title}</h2>
@@ -162,11 +159,6 @@ function completeTask(event) {
 }
   
 function showCompletedTasks(event) {
-  event.preventDefault();
-  // var parseObj = JSON.parse(localStorage.getItem($(event.target).parents('.task-container').attr('data-id')));
-  $(event.target).siblings().children('.task-container').toggleClass('hide');
+  $(event.target).siblings().children('.hide').toggleClass('hide');
+  $('.show').prop('disabled', true);
 }
-
-
-
-
