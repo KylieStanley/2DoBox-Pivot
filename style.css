@@ -48,6 +48,19 @@ h1{
   background-color: #045e55;
 }
 
+.filters {
+  margin: 14px auto;
+}
+
+.small-btn {
+  background-color: #00a79d;
+  color: white;
+  font-size: .8rem;
+  margin: 0 5px;
+  padding: 8px;
+  width: 80px;
+}
+
 input {
   display: flex;
   font-family: 'Open Sans', sans-serif;
@@ -106,6 +119,7 @@ button {
 }
 
 .btn {
+  background-color: white;
   background-size: cover;
   height: 20px;
   width: 20px; 
@@ -156,6 +170,7 @@ button {
   margin: auto;
   margin-top: 10px;
   text-decoration: underline;
+  background-color: white;
 }
 
 .show:hover {
@@ -171,8 +186,6 @@ button {
   display: none;
 }
 
-
-
 @media(max-width: 640px){
 
   input {
@@ -181,6 +194,12 @@ button {
 
   .save-btn {
     width: 85.5%
+  }
+
+  .small-btn {
+    width: 55px;
+    font-size: .7rem;
+    margin: 5px 3px 0;
   }
 
   .task-container {
