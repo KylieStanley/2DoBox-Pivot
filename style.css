@@ -1,3 +1,8 @@
+body {
+  box-sizing: border-box;
+  margin: 0;
+}
+
 .container {
   display: flex;
   flex-direction: column;
@@ -5,11 +10,6 @@
 }
 
 .container-box {
-  margin: 0;
-}
-
-body {
-  box-sizing: border-box;
   margin: 0;
 }
 
