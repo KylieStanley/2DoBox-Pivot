@@ -165,12 +165,12 @@ button {
 }
 
 .show, .show-button {
-  padding: 5px;
-  width: 144px;
-  margin: auto;
-  margin-top: 10px;
-  text-decoration: underline;
   background-color: white;
+  margin-top: 10px;
+  margin: auto;
+  padding: 5px;
+  text-decoration: underline;
+  width: 144px;
 }
 
 .show:hover {
