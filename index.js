@@ -38,7 +38,7 @@ function createHTML(task) {
 function TaskObject(title, body) {
   this.title = title;
   this.body = body;
-  this.quality = 'None';
+  this.quality = 'Normal';
   this.id = Date.now();
   this.class = '';
   this.completed = false;
@@ -74,11 +74,11 @@ function eventDelegator(event) {
     deleteIdea(event);
   }
   if ($(event.target).hasClass('upvote')) {
-    $($(event.target).siblings('.quality').children()[0]).text(upVote(event));
+    $($(event.target).siblings('.quality').children()).text(upVote(event));
     voteStorage(event);
   }
   if ($(event.target).hasClass('downvote')) {
-    $($(event.target).siblings('.quality').children()[0]).text(downVote(event));
+    $($(event.target).siblings('.quality').children()).text(downVote(event));
     voteStorage(event);
   }
   if ($(event.target).hasClass('completed')) {
@@ -103,7 +103,7 @@ function deleteIdea(e) {
 
 function upVote(event) {
   var qualityArray = ['None', 'Low', 'Normal', 'High', 'Critical'];
-  var currentQuality = $($(event.target).siblings('.quality').children()[0]).text();
+  var currentQuality = $($(event.target).siblings('.quality').children()).text();
   for (var i = 0; i < qualityArray.length; i++) {
     if (currentQuality === qualityArray[i]){
       return currentQuality = qualityArray[i+1];
@@ -113,7 +113,7 @@ function upVote(event) {
 
 function downVote(event) {
   var qualityArray = ['None', 'Low', 'Normal', 'High', 'Critical'];
-  var currentQuality = $($(event.target).siblings('.quality').children()[0]).text();
+  var currentQuality = $($(event.target).siblings('.quality').children()).text();
   for (var i = 0; i < qualityArray.length; i++) {
     if (currentQuality === qualityArray[i]){
      return currentQuality = qualityArray[i-1];
@@ -123,7 +123,7 @@ function downVote(event) {
 
 function voteStorage(event) {
   var retrieveTask = JSON.parse(localStorage.getItem($(event.target).parents('.task-container').attr('data-id')));
-  retrieveTask.quality = $($(event.target).siblings('.quality').children()[0]).text();
+  retrieveTask.quality = $($(event.target).siblings('.quality').children()).text();
   localStoreTask(retrieveTask);
 }
 
