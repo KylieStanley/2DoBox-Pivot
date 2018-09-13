@@ -169,10 +169,6 @@ function showCompletedTasks(event) {
   $('.show').prop('disabled', true);
 }
 
-function showAllTasks() {
-  $('.task-container').show();
-}
-
 function filterNone() {
   $(".task-container").filter(function() {
     $(this).toggle($(this).children('.quality').text().indexOf('None') > -1);
@@ -213,6 +209,6 @@ function hideOldTasks() {
   $('.show-button').on('click', showAllTasks);
 }
 
-
-
-
+function showAllTasks() {
+  $('.task-container').show();
+}
