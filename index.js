@@ -173,7 +173,6 @@ function showAllTasks() {
   $('.task-container').show();
 }
 
-
 function filterNone() {
   $(".task-container").filter(function() {
     $(this).toggle($(this).children('.quality').text().indexOf('None') > -1);
