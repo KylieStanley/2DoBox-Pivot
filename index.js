@@ -48,8 +48,7 @@ function getTask() {
   for (var i = 0; i < localStorage.length; i++) {
     var retrievedTask = localStorage.getItem(localStorage.key(i));
     var taskData = JSON.parse(retrievedTask);
-
-      createHTML(taskData);
+    createHTML(taskData);
   }
 };
 
